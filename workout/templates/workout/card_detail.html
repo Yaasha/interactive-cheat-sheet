@@ -1,0 +1,33 @@
+{% load tags %}
+
+<span class="card-title grey-text text-darken-4"> {{ exercise.name }} <i class="material-icons right">close</i></span>
+
+{% if media.link %}
+    <div class="container">
+        {% if progression.description %}
+            <h3>Progression description</h3>
+            {{ progression.description|markdown|ul_to_collection }}
+        {% endif %}
+        {% if exercise.description %}
+            <h3>Exercise description</h3>
+            {{ exercise.description|markdown|ul_to_collection }}
+        {% endif %}
+
+        {% if media.type == "youtube" %}
+            <div class="video-container">
+                <iframe width="640" height="360" src="{{ media.link }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        {% elif media.type == "vimeo" %}
+            <div class="video-container">
+                <iframe src="{{ media.link }}" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            </div>
+        {% elif media.type == "image" %}
+            <div class="video-container">
+                <iframe src="{{ media.link }}" width="640" height="360" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+            </div>
+            <span class="truncate">(Source: <a href="{{ media.link }}" target="_blank">{{ media.link }}</a>)</span> 
+        {% elif media.type == "link" %}
+            <span><a href="{{ media.link }}" target="_blank">link</a></span> 
+        {% endif %}
+    </div>
+{% endif %}

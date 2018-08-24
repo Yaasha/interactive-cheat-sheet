@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-124412189-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-124412189-1');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Interactive cheat sheet for Recommended Routine and Skill Day workouts from /r/bodyweightfitness." />
+    <title>{% if workout %}{{ workout.name }} | {% endif %}Interactive cheat sheet</title>
+
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/flow-text-heading.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/print.css' %}" media="print">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <script>
+        var ajax_details_url = '{% url "ajax" %}';
+    </script>
+    <script src="{% static 'js/script.js' %}"></script>
+
+    <!-- Cookie consent-->
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+    <script>
+    window.addEventListener("load", function(){
+    window.cookieconsent.initialise({
+    "palette": {
+        "popup": {
+        "background": "#eaf7f7",
+        "text": "#5c7291"
+        },
+        "button": {
+        "background": "#56cbdb",
+        "text": "#ffffff"
+        }
+    },
+    "theme": "classic",
+    "position": "bottom-right"
+    })});
+    </script>
+</head>
+<body class="grey lighten-3">
+    {% for menu in menus %}
+        <ul id="menu_{{ menu.id }}" class="dropdown-content">
+            {% for menu_item in menu.menu_items.all %}
+            <li><a href="/{% if menu.link %}{{ menu.link }}/{% endif %}{{ menu_item.link }}">{{ menu_item.title }}</a></li>
+            <li class="divider"></li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+    <nav class="blue-grey darken-4">
+        <a href="#" data-target="slide-out" class="sidenav-trigger white-text"><i class="material-icons large">menu</i></a>
+        <div class="nav-wrapper container">
+            <a href="/" class="brand-logo truncate">Interactive cheat sheet</a>
+            <ul class="right hide-on-med-and-down">
+                {% for menu in menus %}
+                    <li><a class="dropdown-trigger" href="#!" data-target="menu_{{ menu.id }}">{{ menu.title }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </nav>
+
+    <ul id="slide-out" class="sidenav">
+        {% for menu in menus %}
+            <li class="no-padding">
+                <ul class="collapsible collapsible-accordion">
+                <li class="active">
+                    <a class="collapsible-header">{{ menu.title }}<i class="material-icons">arrow_drop_down</i></a>
+                    <div class="collapsible-body">
+                    <ul>
+                        {% for menu_item in menu.menu_items.all %}
+                            <li><a href="/{% if menu.link %}{{ menu.link }}/{% endif %}{{ menu_item.link }}">{{ menu_item.title }}</a></li>
+                        {% endfor %}
+                    </ul>
+                    </div>
+                </li>
+                </ul>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

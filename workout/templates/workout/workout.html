@@ -1,0 +1,205 @@
+{% extends 'workout/layout.html' %}
+{% load tags %}
+
+{% block content %}
+    <audio id="beep" src="http://www.soundjay.com/button/beep-07.wav" autostart="false" ></audio>
+    <ul class="collapsible hoverable">
+        <li>
+          <div class="collapsible-header">
+                <h1 class="full-width flow-text">
+                    <div class="row">
+                        <div class="col s11">
+                            {{ workout.name }}
+                            <span class="flow-text">(<a target="_blank" href="{{ workout.link }}">Source</a>)</span>
+                        </div>
+                        <div class="col s1">
+                            <i class="material-icons small clickable">arrow_drop_down</i>
+                        </div>
+                    </div>
+                </h1>
+          </div>
+          <div class="collapsible-body white">
+                <p>{{ workout.description|markdown }}</p>
+            </div>
+        </li>
+    </ul>
+    
+
+    {% for progression_group in workout.progression_groups.all %}
+        <div class="row">
+            <div class="col s12 no-padding">
+                <div class="card hoverable">
+                    <div class="card-content white-text">
+                        {% if progression_group.title %}
+                            <span class="card-title black-text"><h3>{{ progression_group.title }}</h3></span>
+                        {% endif %}
+                        {% if progression_group.display == 1 %}
+                            <div class="row">
+                                {% for progression in progression_group.progressions.all %}
+                                    <div class="col s12 l6">
+                                        <div class="row valign-wrapper">
+                                            <div class="input-field col s12">
+                                                <select id="progression_{{ progression.id }}" class="cookie-select">
+                                                    {% cookie 'progression_'|addstr:progression.id as cookie %}
+                                                    {% for exercise_group in progression.exercise_groups.all %}
+                                                        {% if exercise_group.title != "" %}
+                                                            <optgroup label="{{ exercise_group.title }}
+                                                                {% if exercise_group.comment %}
+                                                                    <span class='label-comment'>({{exercise_group.comment}})</span>
+                                                                {% endif %}
+                                                            ">
+                                                                {% for exercise in exercise_group.exercises.all %}
+                                                                    <option value="{{ exercise.id }}" {% if cookie|parseInt == exercise.id %}selected{% endif %}>{{ exercise.name }}</option>
+                                                                {% endfor %}
+                                                            </optgroup>
+                                                        {% else %}
+                                                            {% for exercise in exercise_group.exercises.all %}
+                                                                <option value="{{ exercise.id }}" {% if cookie|parseInt == exercise.id %}selected{% endif %}>{{ exercise.name }}</option>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                                {% if progression.title or progression.comment %}
+                                                    <label class="full-width">
+                                                        {% if progression.title %}
+                                                            {{ progression.title }}
+                                                        {% endif %}
+                                                        {% if progression.comment %}
+                                                            <span class="label-comment">{{ progression.comment }}</span>
+                                                        {% endif %}
+                                                    </label>
+                                                {% endif %}
+                                            </div>
+                                            <i class="material-icons small activator help-button show-detail">help_outline</i>
+                                            <input type="hidden" value="{{ progression.id }}">
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% elif progression_group.display == 2 %}
+                            <ul class="collapsible">
+                                {% for progression in progression_group.progressions.all %}
+                                    <li>
+                                        {% if progression.title %}
+                                            <div class="collapsible-header black-text">
+                                                <h4>{{ progression.title }}</h4>
+                                            </div>
+                                        {% endif %}
+                                        <div class="collapsible-body">
+                                            <div class="row">
+                                                {% for exercise_group in progression.exercise_groups.all %}
+                                                    <div class="col s12 l6">
+                                                        <div class="row valign-wrapper">
+                                                            <div class="input-field col s12">
+                                                                <select id="exercise_group_{{ exercise_group.id }}" class="cookie-select">
+                                                                    {% cookie 'exercise_group_'|addstr:exercise_group.id as cookie %}
+                                                                    {% for exercise in exercise_group.exercises.all %}
+                                                                        <option value="{{ exercise.id }}" {% if cookie|parseInt == exercise.id %}selected{% endif %}>{{ exercise.name }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                                {% if exercise_group.title or exercise_group.comment %}
+                                                                    <label class="full-width">
+                                                                        {% if exercise_group.title %}
+                                                                            {{ exercise_group.title }}
+                                                                        {% endif %}
+                                                                        {% if exercise_group.comment %}
+                                                                            <span class="label-comment">{{ exercise_group.comment }}</span>
+                                                                        {% endif %}
+                                                                    </label>
+                                                                {% endif %}
+                                                            </div>
+                                                            <i class="material-icons small activator help-button show-detail">help_outline</i>
+                                                            <input type="hidden" value="{{ progression.id }}">
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="card-reveal">
+                        <span class="card-title grey-text text-darken-4"><i class="material-icons right">close</i></span>
+                        <div class="valign-wrapper full-height">
+                            <div class="center-align full-width">
+                                <div class="preloader-wrapper big active">
+                                    <div class="spinner-layer spinner-blue-only">
+                                        <div class="circle-clipper left">
+                                        <div class="circle"></div>
+                                        </div><div class="gap-patch">
+                                        <div class="circle"></div>
+                                        </div><div class="circle-clipper right">
+                                        <div class="circle"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if progression_group.sets or progression_group.comment%}
+                        <div class="card-action flow-text">
+                            <div class="row">
+                                <div class="col s8">
+                                    {{ progression_group.comment }}
+                                </div>
+                                <div class="col s4 right-align">    
+                                    {% if progression_group.rest %}
+                                        <span class="tooltipped" data-position="top" data-tooltip="Rest time after each exercise">
+                                            <span class="icon-text">{{ progression_group.rest }}s</span>  
+                                            <i class="material-icons small">timer</i>
+                                        </span>
+                                    {% endif %} 
+                                    {% if progression_group.sets %}
+                                        <span class="tooltipped" data-position="top" data-tooltip="Number of sets">
+                                            <span class="icon-text">{{ progression_group.sets }}</span>  
+                                            <i class="material-icons small">replay</i>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>    
+            </div>
+        </div>
+    {% endfor %}
+
+    <div class="fixed-action-btn">
+        <a class="btn-floating btn-large blue-grey darken-4 waves-effect waves-light">
+            <i class="large material-icons">timer</i>
+        </a>
+        <ul>
+            <li><a id="timer_custom" class="btn-floating waves-effect waves-light blue-grey modal-trigger" href="#custom_timer"><i class="material-icons">tune</i></a></li>
+            <li><a id="timer_90" class="btn-floating waves-effect waves-light blue-grey darken-1">90s</a></li>
+            <li><a id="timer_60" class="btn-floating waves-effect waves-light blue-grey darken-2">60s</a></li>
+            <li><a id="timer_30" class="btn-floating waves-effect waves-light blue-grey darken-3">30s</a></li>
+        </ul>
+    </div>
+
+    <div id="modal_timer" class="modal bottom-sheet">
+        <div class="modal-content">
+            <h2 id="timer" class="center-align">00:00</h2>
+            <div class="center-align">
+                <i id="pause_timer" class="material-icons medium clickable">pause</i>
+                <i id="reset_timer" class="material-icons medium clickable">replay</i>
+                <i id="cancel_timer" class="material-icons medium clickable">timer_off</i>
+            </div>
+        </div>
+    </div>
+
+    <div id="custom_timer" class="modal">
+        <div class="modal-content">
+            <div class="row center-align">
+                    <input id="custom_timer_min" class="time" type="number" min="0" max="60" value="{% cookie 'custom_timer_min' %}">
+                     <span class="flow-text"> : </span> 
+                     <input id="custom_timer_sec" class="time" type="number" min="0" max="60" value="{% cookie 'custom_timer_sec' %}">
+            </div>
+            <div class="row center-align">
+                <a id="custom_timer_submit" href="#!" class="modal-close waves-effect waves-light blue-grey darken-4 btn">Start timer</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

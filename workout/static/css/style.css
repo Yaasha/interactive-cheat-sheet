@@ -1,0 +1,43 @@
+.material-icons {
+    vertical-align: middle;
+}
+.icon-text {
+    vertical-align: middle;
+}
+.help-button {
+    color: #bdbdbd;
+}
+.help-button:hover {
+    color: #616161;
+    cursor: pointer;
+}
+.label-comment {
+    margin-right: 5%;
+    float: right;
+}
+.full-width {
+    width: 100% !important;
+}
+.full-height {
+    height: 100% !important;
+}
+.clickable:hover{
+    color: #424242;
+    cursor: pointer;
+}
+a h2{
+    color: #000;
+}
+.no-padding{
+    padding: 0px;
+}
+input.time{
+    width: 50px !important;
+    text-align: center;
+}
+.tooltipped{
+    display: inline-block;
+}
+.sidenav-trigger{
+    margin-left: 5px !important;
+}
