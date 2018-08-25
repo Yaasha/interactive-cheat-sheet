@@ -26,7 +26,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ['DEBUG'] == 'True'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'dry-coast-15074.herokuapp.com', 'recommendedroutine.tk']
+ALLOWED_HOSTS = ['127.0.0.1', 'recommended-routine.appspot.com', 'recommendedroutine.tk']
 
 
 # Application definition
@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'web.wsgi.application'
 
 DATABASES = {
     'default': {
-      'ENGINE': 'django.db.backends.postgresql',
+      'ENGINE': 'django.db.backends.' + os.environ['DB_ENGINE'],
       'HOST': os.environ['DB_HOST'],
       'PORT': os.environ['DB_PORT'],
       'NAME': os.environ['DB_NAME'],
@@ -127,7 +127,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_files')
-STATIC_URL = '/static/'
+STATIC_URL = os.environ['STATIC_URL']
 
 SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_BROWSER_XSS_FILTER = True
