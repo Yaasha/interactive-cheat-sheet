@@ -26,7 +26,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ['DEBUG'] == 'True'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'recommended-routine.appspot.com', 'recommendedroutine.tk']
+ALLOWED_HOSTS = ['127.0.0.1', 'recommended-routine.appspot.com', 'www.recommended-routine.appspot.com', 'recommendedroutine.tk', 'www.recommendedroutine.tk']
 
 
 # Application definition
@@ -129,6 +129,12 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_files')
 STATIC_URL = os.environ['STATIC_URL']
 
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = 'DENY'
+if DEBUG == False:
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_BROWSER_XSS_FILTER = True
+    X_FRAME_OPTIONS = 'DENY'
+
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
