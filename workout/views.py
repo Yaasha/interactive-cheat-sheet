@@ -32,7 +32,7 @@ def show_details(request):
     return render(request, 'workout/card_detail.html', context)
 
 def workout(request, name):
-    wokrout = None
+    workout = None
     for item in Workout.objects.all():
         url = slugify(item.name)
         if url == name:

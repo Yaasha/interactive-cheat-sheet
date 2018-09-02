@@ -6,7 +6,7 @@
     {% for workout in workouts %}
         <div class="row">
             <div class="col s12">
-                <a href="{{ workout.name|slugify }}" title="Show interactive cheat sheet for the {{ workout.name }}">
+                <a href="{{ workout.name|slugify }}" rel="noopener" title="Show interactive cheat sheet for the {{ workout.name }}">
                     <div class="card-panel hoverable">
                         <h2 class="flow-text">{{ workout.name }}</h2>
                     </div>

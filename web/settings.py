@@ -15,6 +15,23 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'workout/static/js', 'sw.js')
+PWA_APP_NAME = 'Interactive Cheat Sheet'
+PWA_APP_DESCRIPTION = "Interactive cheat sheet for Recommended Routine and Skill Day workouts from /r/bodyweightfitness."
+PWA_APP_THEME_COLOR = '#263238'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_START_URL = '/?utm_source=a2hs'
+PWA_APP_ICONS = [
+    {
+        'src': os.environ['STATIC_URL'] + 'img/icon-192.png',
+        'sizes': '192x192'
+    },
+    {
+        'src': os.environ['STATIC_URL'] + 'img/icon-512.png',
+        'sizes': '512x512'
+    },
+]
 
 
 # Quick-start development settings - unsuitable for production
@@ -34,6 +51,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'recommended-routine.appspot.com', 'www.recommende
 INSTALLED_APPS = [
     'workout',
     'markdownx',
+    'pwa',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,8 +68,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'htmlmin.middleware.HtmlMinifyMiddleware',
-    'htmlmin.middleware.MarkRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'web.urls'

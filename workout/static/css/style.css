@@ -41,3 +41,15 @@ input.time{
 .sidenav-trigger{
     margin-left: 5px !important;
 }
+.footer-divider{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+main {
+  flex: 1 0 auto;
+}

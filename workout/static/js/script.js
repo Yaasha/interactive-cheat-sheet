@@ -6,6 +6,7 @@ $( document ).ready(function(){
     $('.tooltipped').tooltip();
     $('.fixed-action-btn').floatingActionButton();
     $('#custom_timer').modal();
+    $('#modal_bitcoin').modal();
     $('#modal_timer').modal({
         'opacity': 0,
         'dismissible': false,
@@ -55,6 +56,13 @@ $( document ).ready(function(){
         }
         
         Cookies.set(this.id, this.value, { path: '', expires: 365 });
+    });
+    $('#copy-btc').click(function(){
+        var copyText = document.getElementById("btc_wallet");
+        copyText.select();
+        document.execCommand("copy");
+        
+        M.toast({html: 'Bitcoin address copied'})
     });
 });
 

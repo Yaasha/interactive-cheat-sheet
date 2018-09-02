@@ -1,4 +1,5 @@
 {% load static %}
+{% load pwa %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,6 +20,7 @@
     <title>{% if workout %}{{ workout.name }} | {% endif %}Interactive cheat sheet</title>
 
     <link rel="icon" href="{% static 'img/favicon.ico' %}">
+    {% progressive_web_app_meta %}
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -65,12 +67,12 @@
         </ul>
     {% endfor %}
     <nav class="blue-grey darken-4">
-        <a href="#" data-target="slide-out" class="sidenav-trigger white-text"><i class="material-icons large">menu</i></a>
+        <a href="#" rel="noopener" data-target="slide-out" class="sidenav-trigger white-text"><i class="material-icons large">menu</i></a>
         <div class="nav-wrapper container">
-            <a href="/" class="brand-logo truncate">Interactive cheat sheet</a>
+            <a href="/" rel="noopener" class="brand-logo truncate">Interactive cheat sheet</a>
             <ul class="right hide-on-med-and-down">
                 {% for menu in menus %}
-                    <li><a class="dropdown-trigger" href="#!" data-target="menu_{{ menu.id }}">{{ menu.title }}<i class="material-icons right">arrow_drop_down</i></a></li>
+                    <li><a class="dropdown-trigger" href="#!" rel="noopener" data-target="menu_{{ menu.id }}">{{ menu.title }}<i class="material-icons right">arrow_drop_down</i></a></li>
                 {% endfor %}
             </ul>
         </div>
@@ -81,11 +83,11 @@
             <li class="no-padding">
                 <ul class="collapsible collapsible-accordion">
                 <li class="active">
-                    <a class="collapsible-header">{{ menu.title }}<i class="material-icons">arrow_drop_down</i></a>
+                    <a rel="noopener" class="collapsible-header">{{ menu.title }}<i class="material-icons">arrow_drop_down</i></a>
                     <div class="collapsible-body">
                     <ul>
                         {% for menu_item in menu.menu_items.all %}
-                            <li><a href="/{% if menu.link %}{{ menu.link }}/{% endif %}{{ menu_item.link }}">{{ menu_item.title }}</a></li>
+                            <li><a href="/{% if menu.link %}{{ menu.link }}/{% endif %}{{ menu_item.link }}" rel="noopener">{{ menu_item.title }}</a></li>
                         {% endfor %}
                     </ul>
                     </div>
@@ -95,9 +97,37 @@
         {% endfor %}
     </ul>
 
-    <div class="container">
-        {% block content %}
-        {% endblock %}
+    <main>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer class="page-footer blue-grey darken-4">
+        <div class="footer-copyright">
+            <div class="container">
+                <div class="row">
+                    <div class="col s12 m6">Made by Yaasha for /r/bodyweightfitness</div>
+                    <div class="divider footer-divider col s12 hide-on-med-and-up"></div>
+                    <div class="col s12 m6">If you like this website, please consider supporting me using <a href="https://www.paypal.me/yaasha" rel="noopener" target="_blank">PayPal</a> or <a class="modal-trigger" href="#modal_bitcoin" rel="noopener">Bitcoin</a>. Thank You! (Please NOTE that I only made the website - all the information is from <a href="https://www.reddit.com/r/bodyweightfitness/" rel="noopener" target="_blank">/r/bodyweightfitness</a>)</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="modal_bitcoin" class="modal">
+        <div class="modal-content">
+            <div class="container center-align">
+                <h4>My Bitcoin wallet</h4>
+                <img src="{% static 'img/btc_qr.png' %}" alt="QR code">
+                <div class="row valign-wrapper">
+                    <input id="btc_wallet" readonly value="3DR4kRTtxBEGgW6DEHLW3iGVpmpVAZsziC" type="text" class="black-text">
+                    <a id="btc_tooltip" class="tooltipped" data-position="top" data-tooltip="Copy to clipboard"><i id="copy-btc" class="material-icons small help-button">content_copy</i></a>
+                </div>
+            </div>
+        </div>
     </div>
+            
 </body>
 </html>

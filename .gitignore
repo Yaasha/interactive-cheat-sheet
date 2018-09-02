@@ -1,10 +1,11 @@
 config.py
 app.yaml
 .vscode/
+proxy.bat
 
 #Django
 workout/migrations/
-recommended-routine-static/
+static_files/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

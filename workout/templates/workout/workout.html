@@ -2,7 +2,7 @@
 {% load tags %}
 
 {% block content %}
-    <audio id="beep" src="http://www.soundjay.com/button/beep-07.wav" autostart="false" ></audio>
+    <audio id="beep" src="https://www.soundjay.com/button/beep-07.wav" autostart="false" ></audio>
     <ul class="collapsible hoverable">
         <li>
           <div class="collapsible-header">
@@ -10,7 +10,7 @@
                     <div class="row">
                         <div class="col s11">
                             {{ workout.name }}
-                            <span class="flow-text">(<a target="_blank" href="{{ workout.link }}">Source</a>)</span>
+                            <span class="flow-text">(<a target="_blank" href="{{ workout.link }}" rel="noopener">Source</a>)</span>
                         </div>
                         <div class="col s1">
                             <i class="material-icons small clickable">arrow_drop_down</i>
@@ -167,14 +167,14 @@
     {% endfor %}
 
     <div class="fixed-action-btn">
-        <a class="btn-floating btn-large blue-grey darken-4 waves-effect waves-light">
+        <a rel="noopener" class="btn-floating btn-large blue-grey darken-4 waves-effect waves-light">
             <i class="large material-icons">timer</i>
         </a>
         <ul>
-            <li><a id="timer_custom" class="btn-floating waves-effect waves-light blue-grey modal-trigger" href="#custom_timer"><i class="material-icons">tune</i></a></li>
-            <li><a id="timer_90" class="btn-floating waves-effect waves-light blue-grey darken-1">90s</a></li>
-            <li><a id="timer_60" class="btn-floating waves-effect waves-light blue-grey darken-2">60s</a></li>
-            <li><a id="timer_30" class="btn-floating waves-effect waves-light blue-grey darken-3">30s</a></li>
+            <li><a rel="noopener" id="timer_custom" class="btn-floating waves-effect waves-light blue-grey modal-trigger" href="#custom_timer"><i class="material-icons">tune</i></a></li>
+            <li><a rel="noopener" id="timer_90" class="btn-floating waves-effect waves-light blue-grey darken-1">90s</a></li>
+            <li><a rel="noopener" id="timer_60" class="btn-floating waves-effect waves-light blue-grey darken-2">60s</a></li>
+            <li><a rel="noopener" id="timer_30" class="btn-floating waves-effect waves-light blue-grey darken-3">30s</a></li>
         </ul>
     </div>
 
@@ -197,7 +197,7 @@
                      <input id="custom_timer_sec" class="time" type="number" min="0" max="60" value="{% cookie 'custom_timer_sec' %}">
             </div>
             <div class="row center-align">
-                <a id="custom_timer_submit" href="#!" class="modal-close waves-effect waves-light blue-grey darken-4 btn">Start timer</a>
+                <a id="custom_timer_submit" href="#!" rel="noopener" class="modal-close waves-effect waves-light blue-grey darken-4 btn">Start timer</a>
             </div>
         </div>
     </div>
