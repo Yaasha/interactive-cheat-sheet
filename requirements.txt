@@ -1,7 +1,7 @@
 beautifulsoup4==4.6.3
 certifi==2018.8.13
 chardet==3.0.4
-Django==2.1
+django>=2.1.6
 django-markdownx==2.0.23
 gunicorn==19.9.0
 html5lib==1.0.1
@@ -10,8 +10,8 @@ Markdown==2.6.11
 Pillow==5.2.0
 psycopg2==2.7.5
 pytz==2018.5
-requests==2.19.1
+requests>=2.20.0
 six==1.11.0
-urllib3==1.23
+urllib3>=1.24.2
 webencodings==0.5.1
 django-progressive-web-app==0.1.1
